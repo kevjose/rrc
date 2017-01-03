@@ -2,7 +2,7 @@ const Server = require('./server.js')
 const port = (process.env.OPENSHIFT_NODEJS_PORT || 8080)
 const app = Server.app()
 
-if (process.env.NODE_ENV !== 'production') {
+if (app.get('env') === 'production') {
   const webpack = require('webpack')
   const webpackDevMiddleware = require('webpack-dev-middleware')
   const webpackHotMiddleware = require('webpack-hot-middleware')
