@@ -18,5 +18,5 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app.listen(port, ip, function(){
-  console.log("Listening on " + server_ip_address + ", server_port " + server_port)
+  console.log("Listening on " + ip + ", server_port " + port)
 });
