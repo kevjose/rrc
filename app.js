@@ -1,5 +1,6 @@
 const Server = require('./server.js')
 const port = (process.env.OPENSHIFT_NODEJS_PORT || 8080)
+const ip = (process.env.OPENSHIFT_NODEJS_IP|| '0.0.0.0')
 const app = Server.app()
 
 if (process.env.NODE_ENV !== 'production') {
@@ -16,5 +17,6 @@ if (process.env.NODE_ENV !== 'production') {
   }))
 }
 
-app.listen(port)
-console.log(`Listening at http://localhost:${port}`)
+app.listen(port, ip, function(){
+  console.log("Listening on " + server_ip_address + ", server_port " + server_port)
+});
