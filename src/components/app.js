@@ -1,12 +1,16 @@
-import React from 'react'
+import React from 'react';
+import NavigationBar from './NavigationBar';
 
-export default class App extends React.Component {
-  render () {
+class App extends React.Component {
+  render(){
     return (
       <div>
-        <h2>Hello World!!</h2>
-        <p>This is really elementary!</p>
+        <NavigationBar />
+        <div className="container-fluid">
+          {this.props.children}
+        </div>
       </div>
-    )
+    );
   }
 }
+export default App;
