@@ -1,4 +1,5 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 
 class SignupForm extends React.Component {
   constructor(props){
@@ -16,7 +17,12 @@ class SignupForm extends React.Component {
 
   onSubmit(e){
     e.preventDefault();
-    this.props.userSignupRequest(this.state);
+    this.props.userSignupRequest(this.state).then(
+      (data) => {
+        console.log(data);
+        browserHistory.push('/');
+      }
+    );
   }
 
   render() {

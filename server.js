@@ -24,6 +24,10 @@ module.exports = {
     app.use('/public', publicPath);
     app.get('*', function (req, res) { res.sendFile(indexPath) });
 
+    app.post('/api/user', function(req, res){
+      res.send({success: true});
+    })
+
     return app;
   }
 }
