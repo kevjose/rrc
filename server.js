@@ -33,7 +33,7 @@ module.exports = {
         publicPath: config.output.publicPath
       }))
     }
-    mongoose.connect('mongodb://localhost:27017/test');
+    mongoose.connect('mongodb://kevin:opensesm@ds035723.mlab.com:35723/goplanr');
     mongoose.connection.on('error', function() {
       console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
       process.exit(1);
