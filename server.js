@@ -19,21 +19,22 @@ module.exports = {
     const app = express();
     const indexPath = path.join(__dirname, 'index.html');
     const publicPath = express.static(path.join(__dirname, 'public'));
-
+    var mongoUri = "mongodb://kevin:opensesm@ds035723.mlab.com:35723/goplanr";
     if (process.env.NODE_ENV !== 'production') {
+      mongoUri = "mongodb://localhost:27017/test"
       const webpack = require('webpack')
       const webpackDevMiddleware = require('webpack-dev-middleware')
       const webpackHotMiddleware = require('webpack-hot-middleware')
       const config = require('./webpack.dev.config.js')
       const compiler = webpack(config)
-
       app.use(webpackHotMiddleware(compiler))
       app.use(webpackDevMiddleware(compiler, {
         noInfo: true,
         publicPath: config.output.publicPath
       }))
     }
-    mongoose.connect('mongodb://kevin:opensesm@ds035723.mlab.com:35723/goplanr');
+    console.log(mongoUri);
+    mongoose.connect(mongoUri);
     mongoose.connection.on('error', function() {
       console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
       process.exit(1);
