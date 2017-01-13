@@ -1,5 +1,7 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
+import { connect } from 'react-redux'
+import { googleLogin } from '../../actions/oauth';
 
 class SignupForm extends React.Component {
   constructor(props){
@@ -9,6 +11,7 @@ class SignupForm extends React.Component {
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleGoogle = this.handleGoogle.bind(this);
   }
 
   onChange(e){
@@ -20,38 +23,63 @@ class SignupForm extends React.Component {
     this.props.userSignupRequest(this.state).then(
       (data) => {
         console.log(data);
+        this.props.addFlashMessage({
+          type:'success',
+          text:'Signup Successful'
+        })
         browserHistory.push('/');
       }
     );
   }
 
+  handleGoogle() {
+    this.props.dispatch(googleLogin())
+  }
+
   render() {
     return (
-      <form onSubmit={this.onSubmit} >
-        <h2>Join our community</h2>
-        <div className="form-group">
-          <label className="control-label">Username</label>
-          <input
-            value={this.state.username}
-            onChange={this.onChange}
-            type="text"
-            name="username"
-            className="form-control"
-          />
-        </div>
+      <div>
+        <form onSubmit={this.onSubmit} >
+          <h2>Join our community</h2>
+          <div className="form-group">
+            <label className="control-label">Username</label>
+            <input
+              value={this.state.username}
+              onChange={this.onChange}
+              type="text"
+              name="username"
+              className="form-control"
+            />
+          </div>
+
+          <div className="form-group">
+            <button className="btn btn-success">
+              Sign Up
+            </button>
+          </div>
+
+        </form>
+
+        <hr/>
 
         <div className="form-group">
-          <button className="btn btn-success">
-            Sign Up
-          </button>
+          <button className="btn btn-danger" onClick={this.handleGoogle}>Sign in with Google</button>
         </div>
-      </form>
+      </div>
     );
   }
 }
 
 SignupForm.propTypes = {
-  userSignupRequest: React.PropTypes.func.isRequired
+  userSignupRequest: React.PropTypes.func.isRequired,
+  addFlashMessage: React.PropTypes.func.isRequired
 }
 
-export default SignupForm;
+
+const mapStateToProps = (state) => {
+  return {
+
+  };
+};
+
+export default connect(mapStateToProps)(SignupForm);
