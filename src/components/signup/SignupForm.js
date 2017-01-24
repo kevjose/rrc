@@ -2,34 +2,106 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux'
 import { googleLogin } from '../../actions/oauth';
+import TextFieldGroup from '../common/TextFieldGroup';
 
 class SignupForm extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      username: '',
+      errors:{},
+      formField:[]
     }
     this.onChange = this.onChange.bind(this);
+    this.validate = this.validate.bind(this);
+    this.onBlurValidate = this.onBlurValidate.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleGoogle = this.handleGoogle.bind(this);
   }
+  componentWillMount(){
+    this.setState(
+      {
+        formField:[
+          {name:'username',type:'text',label:'Name',value:'',required:'true'},
+          {name:'userage',type:'number',label:'Age',value:'', min:'1', max:'5'},
+          {name:'userloc',type:'text',label:'Location',value:'',required:'true',pattern:'.{5,10}',title:'5 to 10 characters'},
+        ]
+      }
+    )
+  }
 
   onChange(e){
-    this.setState({[e.target.name]: e.target.value});
+    let id = e.target.id;
+    var stateCopy = Object.assign({}, this.state);
+    stateCopy.formField[id].value = e.target.value;
+    this.setState(stateCopy);
+  }
+
+  validate(){
+    var stateForError = Object.assign({}, this.state);
+    stateForError.errors = {};
+    this.setState(stateForError);
+    stateForError.formField.map((field, i) => {
+      if(field.required && field.value == ''){
+        stateForError.errors[field.name] = field.label+' is required';
+      }
+      else if(field.min && field.value && parseFloat(field.value) < parseFloat(field.min)){
+        stateForError.errors[field.name] = field.label+' should be greater than'+ field.min;
+      }
+      else if(field.max && field.value && parseFloat(field.value) > parseFloat(field.max)){
+        stateForError.errors[field.name] = field.label+' should be lesser than'+ field.max;
+      }
+      else if(field.pattern){
+        let p = new RegExp(field.pattern);
+        if(!p.test(field.value)){
+          stateForError.errors[field.name] = field.title;
+        }
+      }
+    })
+    this.setState(stateForError);
+    if(stateForError.errors) return false;
+    else return true;
+  }
+
+  onBlurValidate(e){
+    console.log('on-blur');
+    let id = e.target.id;
+    var stateOnBlur = Object.assign({}, this.state);
+    let field = stateOnBlur.formField[id];
+    stateOnBlur.errors[field.name] = '';
+    if(field.required && field.value == ''){
+      stateOnBlur.errors[field.name] = field.label+' is required';
+    }
+    else if(field.min && field.value && parseFloat(field.value) < parseFloat(field.min)){
+      stateOnBlur.errors[field.name] = field.label+' should be greater than'+ field.min;
+    }
+    else if(field.max && field.value && parseFloat(field.value) > parseFloat(field.max)){
+      stateOnBlur.errors[field.name] = field.label+' should be lesser than'+ field.max;
+    }
+    else if(field.pattern){
+      let p = new RegExp(field.pattern);
+      if(!p.test(field.value)){
+        stateOnBlur.errors[field.name] = field.title;
+      }
+    }
+    this.setState(stateOnBlur);
+
   }
 
   onSubmit(e){
     e.preventDefault();
-    this.props.userSignupRequest(this.state).then(
-      (data) => {
-        console.log(data);
-        this.props.addFlashMessage({
-          type:'success',
-          text:'Signup Successful'
-        })
-        browserHistory.push('/');
-      }
-    );
+    if(this.validate()){
+      this.props.userSignupRequest(this.state).then(
+        (data) => {
+          console.log(data);
+          this.props.addFlashMessage({
+            type:'success',
+            text:'Signup Successful'
+          })
+          browserHistory.push('/');
+        }
+      );
+    }
+
   }
 
   handleGoogle() {
@@ -37,20 +109,32 @@ class SignupForm extends React.Component {
   }
 
   render() {
+    const { errors } = this.state;
     return (
       <div>
-        <form onSubmit={this.onSubmit} >
+        <form onSubmit={this.onSubmit} noValidate>
           <h2>Join our community</h2>
-          <div className="form-group">
-            <label className="control-label">Username</label>
-            <input
-              value={this.state.username}
-              onChange={this.onChange}
-              type="text"
-              name="username"
-              className="form-control"
-            />
-          </div>
+          {this.state.formField.map((f,i) => {
+            return (
+              <div className="form-group" key={i}>
+                <TextFieldGroup
+                  id={i}
+                  label={f.label}
+                  type={f.type}
+                  onChange={this.onChange}
+                  onBlur={this.onBlurValidate}
+                  value={f.value}
+                  name={f.name}
+                  pattern={f.pattern}
+                  title={f.title}
+                  required={f.required}
+                  min={f.min}
+                  max={f.max}
+                  error = {errors[f.name]}
+                 />
+              </div>
+            );
+          })}
 
           <div className="form-group">
             <button className="btn btn-success">
