@@ -8,8 +8,8 @@ const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const flock = require('flockos');
 const fs = require('fs');
-flock.setAppId("e3c5b901-3705-4794-bf03-68193dfe98a6");
-flock.setAppSecret("3dd0bfd3-f23a-4e56-91e3-74a0e62cc006");
+flock.setAppId("04c963a9-7326-49f3-a8ce-22a0a9dfd7ea");
+flock.setAppSecret("76277f2b-9810-43a7-85e4-e9a5ce93c085");
 
 // Models
 var User = require('./models/User');
