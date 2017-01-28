@@ -50,6 +50,12 @@ module.exports = {
     app.use(expressValidator());
     app.use(cookieParser());
     app.use('/public', publicPath);
+    if (app.get('env') === 'production') {
+      app.use(function (req, res, next) {
+        var protocol = req.get('x-forwarded-proto');
+        protocol == 'https' ? next() : res.redirect('https://' + req.hostname + req.url);
+      });
+    }
     app.use(function(req, res, next) {
       req.isAuthenticated = function() {
         var token = (req.headers.authorization && req.headers.authorization.split(' ')[1]) || req.cookies.token;
