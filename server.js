@@ -6,6 +6,10 @@ const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
+const flock = require('flockos');
+const fs = require('fs');
+flock.setAppId("e3c5b901-3705-4794-bf03-68193dfe98a6");
+flock.setAppSecret("3dd0bfd3-f23a-4e56-91e3-74a0e62cc006");
 
 // Models
 var User = require('./models/User');
@@ -80,10 +84,30 @@ module.exports = {
       res.send({user:req.user});
     })
 
+    app.use(flock.events.tokenVerifier);
+    app.post('/api/events', flock.events.listener);
+    var tokens;
+    try {
+        tokens = require('./tokens.json');
+    } catch (e) {
+        tokens = {};
+    }
 
-    app.get('/api/event', function(req, res){
-      res.status(200).send({ success: 'All is well' });
-    })
+    // save tokens on app.install
+    flock.events.on('app.install', function (event) {
+        tokens[event.userId] = event.token;
+    });
+
+    // delete tokens on app.uninstall
+    flock.events.on('app.uninstall', function (event) {
+        delete tokens[event.userId];
+    });
+    // exit handling -- save tokens in token.js before leaving
+    process.on('SIGINT', process.exit);
+    process.on('SIGTERM', process.exit);
+    process.on('exit', function () {
+        fs.writeFileSync('./tokens.json', JSON.stringify(tokens));
+    });
 
     return app;
   }
