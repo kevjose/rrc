@@ -85,7 +85,7 @@ module.exports = {
     })
 
     app.use(flock.events.tokenVerifier);
-    app.post('/api/events', flock.events.listener);
+    app.post('/events', flock.events.listener);
     var tokens;
     try {
         tokens = require('./tokens.json');
