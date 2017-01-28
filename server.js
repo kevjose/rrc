@@ -80,6 +80,11 @@ module.exports = {
       res.send({user:req.user});
     })
 
+
+    app.get('/event', function(req, res){
+      res.send({sucess: true});
+    })
+
     return app;
   }
 }
