@@ -81,8 +81,8 @@ module.exports = {
     })
 
 
-    app.get('/event', function(req, res){
-      res.send({sucess: true});
+    app.get('/api/event', function(req, res){
+      res.status(200).send({ success: 'All is well' });
     })
 
     return app;
