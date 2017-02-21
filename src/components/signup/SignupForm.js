@@ -114,7 +114,7 @@ class SignupForm extends React.Component {
       <div>
         <form onSubmit={this.onSubmit} noValidate>
           <h2>Join our community</h2>
-          {this.state.formField.map((f,i) => {
+          {/* {this.state.formField.map((f,i) => {
             return (
               <div className="form-group" key={i}>
                 <TextFieldGroup
@@ -134,13 +134,14 @@ class SignupForm extends React.Component {
                  />
               </div>
             );
-          })}
+          })} */}
+          <p className="text-muted"> Please sign in to checkout the awesome !!</p>
 
-          <div className="form-group">
+          {/* <div className="form-group">
             <button className="btn btn-success">
               Sign Up
             </button>
-          </div>
+          </div> */}
 
         </form>
 

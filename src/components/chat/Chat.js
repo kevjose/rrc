@@ -51,28 +51,36 @@ export default class Chat extends React.Component {
         {/* {user.name} <br/> {user.socketID }
       <br/><hr/> */}
       <div className="row">
-        <span className="hidden-md hidden-lg" onClick={::this.openNav} style={{'cursor':'pointer'}}><b>&#9776; Open</b></span>
-        <div id="mySidenav" className="sidenav" style={{'height':'75vh'}}>
+        <span className="hidden-md hidden-lg" onClick={::this.openNav} style={{'cursor':'pointer'}}><b>&#9776; Show Channels</b></span>
+        <div id="mySidenav" className="sidenav" style={{'height':'86vh'}}>
           <a href="javascript:void(0)" className="closebtn" onClick={::this.closeNav}>&times;</a>
-          <a href="#">About</a>
-          <a href="#">Services</a>
-          <a href="#">Clients</a>
-          <a href="#">Contact</a>
+          <a>Lobby</a>
+
         </div>
         <div className="col-md-4">
           <div className="panel panel-info hidden-sm hidden-xs" style={{'height': '75vh', 'overflowY':'scroll'}}>
-            Participants
+            <div className="panel-heading">Channels</div>
+            <div className="panel-body">
+              <br/>
+              <ul className="list-group">
+                <li className="list-group-item active">Lobby</li>
+              </ul>
+            </div>
           </div>
         </div>
         <div className="col-md-8">
-          <div className="panel panel-default" style={{'height': '75vh', 'overflowY':'scroll'}}>
-            Messages
-            <ul ref="messageList">
-              {filteredMessages.map(message =>
-                <MessageListItem message={message} key={message.id}/>
-              )}
-            </ul>
-            <MessageComposer socket={socket} activeChannel="Lobby" user={user} onSave={this.handleSave} />
+          <div className="panel panel-default">
+            <div className="panel-heading">Messages</div>
+            <div className="panel-body" style={{'height': '70vh', 'overflowY':'scroll'}}>
+              <ul ref="messageList">
+                {filteredMessages.map(message =>
+                  <MessageListItem message={message} key={message.id} user={user} />
+                )}
+              </ul>
+            </div>
+            <div className="panel-footer">
+              <MessageComposer socket={socket} activeChannel="Lobby" user={user} onSave={this.handleSave} />
+            </div>
           </div>
         </div>
       </div>

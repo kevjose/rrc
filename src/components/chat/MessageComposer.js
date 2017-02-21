@@ -49,9 +49,9 @@ export default class MessageComposer extends React.Component {
     return (
       <div>
         <textarea
+          className="form-control"
           name="message"
           id="message"
-          cols="50"
           rows="3"
           ref="messageComposer"
           placeholder="Type here to chat"
