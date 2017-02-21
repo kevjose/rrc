@@ -76,6 +76,13 @@ module.exports = {
         next();
       }
     });
+    //load routers
+    const messageRouter = express.Router();
+    const channelRouter = express.Router();
+    require('./routes/message_routes')(messageRouter);
+    require('./routes/channel_routes')(channelRouter);
+    app.use('/api', messageRouter);
+    app.use('/api', channelRouter);
 
     app.get('*', function (req, res) { res.sendFile(indexPath) });
 
@@ -87,9 +94,11 @@ module.exports = {
     app.get('/auth/google/callback', userController.authGoogleCallback);
 
     app.post('/api/authenticate/user', function(req, res){
-      res.send({user:req.user});
+      res.send({user:req.user,token:req.cookies.token});
     })
 
+
+    // flock integrations
     app.use(flock.events.tokenVerifier);
     app.post('/events', flock.events.listener);
     var tokens;

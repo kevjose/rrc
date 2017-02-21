@@ -123,6 +123,7 @@ exports.authGoogle = function(req, res) {
             google: profile.sub
           });
           user.save(function(err) {
+            console.log(err);
             res.send({ token: generateToken(user), user: user });
           });
         });

@@ -10,9 +10,12 @@ class NavigationBar extends React.Component {
   }
   componentWillMount(){
     const token = cookie.load('token');
-    if(token && this.props.user &&!this.props.user.name){
-      this.props.authenticateUser();
-    }else if (!token) {
+    // if(token && this.props.user &&!this.props.user.name){
+    //   this.props.authenticateUser();
+    // }else if (!token) {
+    //   browserHistory.push('/signup');
+    // }
+    if(!token) {
       browserHistory.push('/signup');
     }
   }
