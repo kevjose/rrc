@@ -80,6 +80,15 @@ export default class Chat extends React.Component {
             </div>
             <div className="panel-footer">
               <MessageComposer socket={socket} activeChannel="Lobby" user={user} onSave={this.handleSave} />
+              {typers.length === 1 &&
+                <small className="text-muted">{typers[0]} is typing</small>
+              }
+              {typers.length === 2 &&
+                <small className="text-muted">{typers[0]}, {typers[1]} are typing</small>
+              }
+              {typers.length > 2 &&
+                <small className="text-muted">Several people are typing</small>
+              }
             </div>
           </div>
         </div>
@@ -93,15 +102,6 @@ export default class Chat extends React.Component {
       <div>
         {view}
 
-        {typers.length === 1 &&
-          <i className="text-muted">{typers[0]} is typing</i>
-        }
-        {typers.length === 2 &&
-          <i className="text-muted">{typers[0]}, {typers[1]} are typing</i>
-        }
-        {typers.length > 2 &&
-          <i className="text-muted">Several people are typing</i>
-        }
       </div>
 
     );
