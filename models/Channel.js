@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose');
+mongoose.Promise = Promise;
 
 var channelSchema = mongoose.Schema({
   name: { type:String, unique: true },

@@ -1,6 +1,7 @@
 var crypto = require('crypto');
 var bcrypt = require('bcrypt-nodejs');
 var mongoose = require('mongoose');
+mongoose.Promise = Promise;
 
 var schemaOptions = {
   timestamps: true,

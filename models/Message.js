@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose');
+mongoose.Promise = Promise;
 
 var messageSchema = mongoose.Schema({
   id: String,

@@ -1,6 +1,7 @@
 const path = require('path')
 const express = require('express')
 const mongoose = require('mongoose');
+mongoose.Promise = Promise;
 const jwt = require('jsonwebtoken');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
