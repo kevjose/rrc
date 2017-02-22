@@ -1,7 +1,7 @@
 {
-  "name": "React Redux CRUD with socket.io",
+  "name": "rrc",
   "version": "1.0.0",
-  "description": "React app",
+  "description": "React Redux with socket.io app",
   "main": "app.js",
   "homepage": "",
   "author": "Kevin Jose",
@@ -11,8 +11,7 @@
     "start": "node app.js"
   },
   "repository": {
-    "type": "git",
-    "url": ""
+    "type": "git"
   },
   "keywords": [
     "react",
